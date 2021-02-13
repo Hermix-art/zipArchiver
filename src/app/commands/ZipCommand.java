@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 public abstract class ZipCommand implements Command {
 
-    public ZipFileManager getZipFileManager() throws IOException {
+    public ZipFileManager getZipFileManager() throws Exception {
         ConsoleManager.writeMessage("Please provide path to archive");
         Path archivePath = Paths.get(ConsoleManager.readString());
         return new ZipFileManager(archivePath);

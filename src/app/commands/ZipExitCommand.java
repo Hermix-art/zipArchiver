@@ -1,6 +1,6 @@
 package app.commands;
 
-public class ZipRemoveCommand extends ZipCommand {
+public class ZipExitCommand extends ZipCommand {
     @Override
     public void execute() throws Exception {
 

@@ -1,4 +1,8 @@
 package app.commands;
 
-public class ZipContentCommand {
+public class ZipContentCommand extends ZipCommand{
+    @Override
+    public void execute() throws Exception {
+
+    }
 }

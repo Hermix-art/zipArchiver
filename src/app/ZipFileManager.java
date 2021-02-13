@@ -9,4 +9,12 @@ public class ZipFileManager {
         this.zipFile = zipFile;
     }
 
+    public void addFile(Path sourceFile){
+
+    }
+
+    public void removeFile(Path sourceFile){
+
+    }
+
 }
