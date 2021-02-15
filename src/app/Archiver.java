@@ -23,6 +23,7 @@ public class Archiver {
     }
 
     public static Operation getOperationFromUser()throws IOException {
+        ConsoleManager.writeMessage("");
         ConsoleManager.writeMessage("Hello, please choose the operation");
         ConsoleManager.writeMessage(String.format("\t%s CREATE THE ARCHIVE", Operation.CREATE.ordinal()));
         ConsoleManager.writeMessage(String.format("\t%s ADD TO ARCHIVE", Operation.ADD.ordinal()));

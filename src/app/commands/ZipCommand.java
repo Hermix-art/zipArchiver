@@ -3,7 +3,6 @@ package app.commands;
 import app.ConsoleManager;
 import app.ZipFileManager;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

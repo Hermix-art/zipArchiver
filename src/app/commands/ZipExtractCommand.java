@@ -16,7 +16,7 @@ public class ZipExtractCommand extends ZipCommand {
 
             zipFileManager.extractAll(Paths.get(ConsoleManager.readString()));
 
-            ConsoleManager.writeMessage("Extract completed");
+            ConsoleManager.writeMessage("Extraction completed");
         } catch (PathIsNotFoundException e) {
             ConsoleManager.writeMessage("Path doesn't exist");
         }

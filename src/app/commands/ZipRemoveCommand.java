@@ -12,6 +12,7 @@ public class ZipRemoveCommand extends ZipCommand {
         try {
             ConsoleManager.writeMessage("Removing the file");
             ZipFileManager zipFileManager = getZipFileManager();
+
             ConsoleManager.writeMessage("Which file is to be removed");
 
             zipFileManager.removeFile(Paths.get(ConsoleManager.readString()));
