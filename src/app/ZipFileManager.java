@@ -3,6 +3,7 @@ package app;
 import app.exceptions.PathIsNotFoundException;
 import app.exceptions.WrongZipFileException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,7 +31,7 @@ public class ZipFileManager {
             Files.createDirectories(parentDir);
         }
 
-        try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(source))) {
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))) {
 
             if (Files.isDirectory(source)) {
                 FileManager fileManager = new FileManager(source);
@@ -140,44 +141,68 @@ public class ZipFileManager {
     public void addFile(Path sourceFile) throws Exception {
         addFiles(Collections.singletonList(sourceFile));
     }
+
     public void addFiles(List<Path> pathList) throws Exception {
-        if(!Files.isRegularFile(zipFile)){
+        if (!Files.isRegularFile(zipFile)) {
             throw new WrongZipFileException();
         }
 
         List<Path> listOfArchivedFiles = new ArrayList<>();
-        Path tempFile = Files.createTempFile(null,null);
+        Path tempFile = Files.createTempFile(null, null);
 
-        try(ZipInputStream inputStream = new ZipInputStream(Files.newInputStream(zipFile));
-        ZipOutputStream outputStream = new ZipOutputStream(Files.newOutputStream(tempFile))){
+        try (ZipInputStream inputStream = new ZipInputStream(Files.newInputStream(zipFile));
+             ZipOutputStream outputStream = new ZipOutputStream(Files.newOutputStream(tempFile))) {
 
             ZipEntry entry = inputStream.getNextEntry();
-            while(entry != null){
+            while (entry != null) {
                 String entryName = entry.getName();
                 listOfArchivedFiles.add(Paths.get(entryName));
 
                 outputStream.putNextEntry(new ZipEntry(entryName));
-                copyData(outputStream,inputStream);
+                copyData(outputStream, inputStream);
                 outputStream.closeEntry();
                 inputStream.closeEntry();
 
                 entry = inputStream.getNextEntry();
             }
 
-            for(Path path : pathList){
-                if(Files.isRegularFile(path)){
-                    if(listOfArchivedFiles.contains(path.getFileName())){
+            for (Path path : pathList) {
+                if (Files.isRegularFile(path)) {
+                    if (listOfArchivedFiles.contains(path.getFileName())) {
                         ConsoleManager.writeMessage(String.format("Archive already contains the file %s", path.getFileName()));
-                    }else{
+                    } else {
                         addZipEntry(outputStream, path.getParent(), path.getFileName());
                         ConsoleManager.writeMessage(String.format("File %s was added successfully", path.getFileName()));
                     }
 
-                }else throw new PathIsNotFoundException();
+                } else throw new PathIsNotFoundException();
             }
 
         }
-        Files.move(tempFile,zipFile,StandardCopyOption.REPLACE_EXISTING);
+        Files.move(tempFile, zipFile, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public List<FileProperties> getFilesList() throws Exception {
+        if (!Files.isRegularFile(zipFile)) {
+            throw new WrongZipFileException();
+        }
+
+        List<FileProperties> filesAvailable = new ArrayList<>();
+
+        try (ZipInputStream inputStream = new ZipInputStream(Files.newInputStream(zipFile))) {
+            ZipEntry entry = inputStream.getNextEntry();
+            while(entry != null){
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                copyData(outputStream,inputStream);
+
+                FileProperties properties = new FileProperties(entry.getName(),entry.getSize(),entry.getCompressedSize(),entry.getMethod());
+                filesAvailable.add(properties);
+                entry = inputStream.getNextEntry();
+            }
+
+        }
+
+        return filesAvailable;
     }
 
 

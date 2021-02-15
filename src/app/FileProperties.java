@@ -6,6 +6,13 @@ public class FileProperties {
     private long compressedSize;
     private int compressedMethod;
 
+    public FileProperties(String name, long size, long compressedSize, int compressedMethod) {
+        this.name = name;
+        this.size = size;
+        this.compressedSize = compressedSize;
+        this.compressedMethod = compressedMethod;
+    }
+
     public String getName() {
         return name;
     }
