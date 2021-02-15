@@ -18,8 +18,8 @@ public class FileManager {
         return allRelativizedPaths;
     }
 
-    public FileManager(String source)throws IOException {
-        sourceFile = Paths.get(source);
+    public FileManager(Path source)throws IOException {
+        sourceFile = source;
         allRelativizedPaths = new ArrayList<>();
 
         extractPaths(sourceFile);

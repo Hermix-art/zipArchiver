@@ -1,10 +1,10 @@
 package app;
 
 public enum Operation {
-    CREATE,
+    CREATE,//
     ADD,
-    REMOVE,
-    EXTRACT,
+    REMOVE,//
+    EXTRACT,//
     CONTENT,
     EXIT
 }
