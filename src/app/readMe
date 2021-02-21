@@ -1,0 +1,11 @@
+Zip archiver
+
+Simple archiver, which supports next operations:
+
+- archive creation
+- adding new file to archive file
+- removal file from archive file
+- extraction files from archive file
+- displaying the content of archive file
+
+entry point to program is in Archive class
